@@ -1,0 +1,11 @@
+{
+	"name": "kranten-export",
+	"version": "1.0.0",
+	"description": "generate mets file for directory",
+	"main": "main.js",
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"cheerio": "^0.22.0"
+	}
+}

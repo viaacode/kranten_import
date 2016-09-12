@@ -49,7 +49,7 @@ jp2 generation is already a micro service. Right now the files are generated on 
 and the jp2 service needs to be able to read the source files from disk. This ties the
 whole process to the system that hosts the file. This could be switched to some ftp server
 and use pythons ftp client to put files back there. (ask tina if there are better ways to
-decouple the daemons from he file system ?)
+decouple the daemons from he file system ?, ftp filesystems can already be mounted ...)
 
 Generating a valid mets file could be a service on its own (depending on what exactly it
 is supposed to do)
@@ -63,14 +63,19 @@ directory
 
 Some microservices are written in python, others in java. Is there any preference?
 
+
 ## process
 
 EXTERNAL PROCESS =(
 	queue json {
 		"pid": "123Abc",
-		"title": "Some Title",
-		"location": "ftp://user@password:host.domain/path/to/dir",
+		"location": {
+			"host": ""
+			"path": "ftp://user@password:host.domain/path/to/dir/",
+			...
+		}
 		"mets_info": {
+			"title": "Some Title",
 			...
 		}
 	}';
@@ -81,11 +86,22 @@ ON TRIGGER RECIEVED =(
 	queue dir-listing;
 )
 
+ON RECOVER RECEIVED =(
+	db: get info
+	continue met
+
+	queue tiff moves (copy to)
+	queue jp2 moves (create into target location)
+	queue alto move (copy to, but could be move)
+	queue zip original move (create into target location)
+)
+
 ON LISTING COMPLETE =(
 	count tiffs;
 	check alto present;
 	db: insert pid data (pid, count, alto, status);
 
+	// shutdon in middle of queueing ...
 	queue tiff moves (copy to)
 	queue jp2 moves (create into target location)
 	queue alto move (copy to, but could be move)
@@ -106,6 +122,11 @@ ON METS GENERATION DONE =(
 )
 
 alternatively, we could get a pid ourselfs before we start doing the trigger recieved
+	probably get pid
+
 alternatively, when copy is not possible, first do tiff move, then queue jp2 generation
+	copy pobably
+
 alternatively, if extra zip is not possible, skip the original zip creation.
 altervatively, if urn is not ok, user locations object whit things split out.
+	probably object.

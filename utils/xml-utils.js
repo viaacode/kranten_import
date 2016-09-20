@@ -1,5 +1,13 @@
 (function () {
 
+	/*
+	 * Error [920]: METS: METS does not validate: Element
+	 * '{http://www.loc.gov/METS/}mets', attribute
+	 * '{http://www.w3.org/2001/XMLSchema-instance}schemaLocations': The attribute
+	 * '{http://www.w3.org/2001/XMLSchema-instance}schemaLocations' is not allowed., line
+	 * 2
+	 */
+
 	var namespaces = {
 		'xmlns:mets': 'http://www.loc.gov/METS/',
 		'xmlns:premis': 'info:lc/xmlns/premis-v2',

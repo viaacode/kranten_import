@@ -4,8 +4,10 @@ var crypto = require ('crypto');
 (function () {
 
 	var types = {
+		'.tif': 'image/tif',
 		'.tiff': 'image/tiff',
 		'.jp2': 'image/jp2',
+		'.jpg': 'image/jpg',
 		'.xml': 'application/xml',
 		'.mov': 'video/quicktime',
 		'.dpx': 'mage/x-dpx',
@@ -19,7 +21,7 @@ var crypto = require ('crypto');
 		var n = 0;
 
 		while ( nr = fs.readSync (fd, buffer, 0, buffer.length) ) {
-			hash.update (buffer);
+			hash.update (buffer.slice (0, nr));
 		}
 		return hash.digest ('hex');
 	}
@@ -28,6 +30,12 @@ var crypto = require ('crypto');
 		var index = filename.lastIndexOf ('.');
 		var extension = filename.substr (index);
 		return types[extension] || 'application/octet-stream';
+	}
+
+	function getPageNumber (file) {
+		var regex = /_(\d+)_[^\/]+$/;
+		var match = regex.exec (file);
+		return match[1];
 	}
 
 	function findFiles (directory, options) {
@@ -61,7 +69,8 @@ var crypto = require ('crypto');
 	module.exports = {
 		calcMD5: calcMD5,
 		calcMimeType: calcMimeType,
-		findFiles: findFiles
+		findFiles: findFiles,
+		getPageNumber: getPageNumber
 	};
 
 } ());

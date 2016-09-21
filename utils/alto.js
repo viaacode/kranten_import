@@ -7,12 +7,6 @@ var addNode = xUtils.addNode;
 
 (function () {
 
-	/*
-	 * Error [920]: METS: METS does not validate: Element
-	 * '{http://www.loc.gov/METS/}mdWrap': The attribute 'MDTYPE' is required but
-	 * missing., line 34
-	 */
-
 	function findMets (directory) {
 		var files = fs.readdirSync (directory);
 		var candidates = files.filter (function (file) {
@@ -28,9 +22,11 @@ var addNode = xUtils.addNode;
 		return cheerio.load (fs.readFileSync (fd), { xmlMode: true });
 	}
 
-	function AltoEmbeder (xml, config) {
+	function AltoEmbeder (config, params) {
 		this.config = config;
-		this.mets = loadXmlFile (findMets (this.config.directory));
+		this.params = params || {};
+		this.metsfilename = findMets (this.config.directory);
+		this.mets = loadXmlFile (this.metsfilename);
 	}
 
 	AltoEmbeder.prototype.listAltos = function listAltos () {
@@ -54,11 +50,17 @@ var addNode = xUtils.addNode;
 			this.embedAlto (altofile, contents);
 		}.bind (this));
 
+		if ( this.params.writeToDisk ) {
+			fs.writeFileSync (this.metsfilename, this.toString ());
+		}
+
 		return this;
 	}
 
 	AltoEmbeder.prototype.embedAlto = function embedAlto (altofile, content) {
+		this.mets ('mets\\:amdSec').last ().after ('<mets:amdSec />');
 		var amdsec = this.mets ('mets\\:amdSec').last ();
+
 		var source = addNode (this.mets, amdsec, [ 'mets:sourceMD' ]);
 		var mdwrap = addNode (this.mets, source, [ 'mets:mdWrap' ]);
 		var have = addNode (this.mets, mdwrap, [ 'mets:xmlData', 'MediaHAVEN_external_metadata']);
@@ -70,20 +72,16 @@ var addNode = xUtils.addNode;
 		description.text (content);
 		transcriptie.text (content);
 
-		/*
-		 * METADATA-DIGITALOBJECT-OCR-00002
-		 * METADATA-DIGITALOBJECT-OCR-00002
-		 */
-
 		mdwrap.attr ('MDTYPE', 'OTHER');
 		mdwrap.attr ('OTHERMDTYPE', 'VIAA-XML');
 		var pageNr = fUtils.getPageNumber (altofile);
 		var altoId = 'METADATA-DIGITALOBJECT-OCR-' + pageNr;
 		source.attr ('ID', altoId);
+		amdsec.attr ('ID', 'SECTION-' + altoId);
 
 		this.mets ('mets\\:file[ID*=' + pageNr + ']').each (function (index, item) {
 			var node = this.mets (item);
-			node.attr ('ADMID', node.attr ('ADMID') + ' ' + altoId);
+			node.attr ('ADMID', /* node.attr ('ADMID') + ' ' + */ altoId);
 		}.bind (this));
 	}
 

@@ -19,35 +19,48 @@ var options = cmdargs.parse ({
 	}],
 
 	metadata: {
-		'MediaHAVEN_external_metadata': {
-			'title': { '#text': 'TITRE' },
-			'description': {},
-			'MDProperties': {
-				'dc_titles': {
-					'$type': 'list',
-					'archief': { '#text': 'OORLOG' },
-					'deelarchief': { '#text': 'Clandestien WO I' },
-				},
-				'CreationDate': { '#text': new Date ().toISOString () },
-				'date': { '#text': '1912-12-12' },
-				'original_carrier_id': { '#text': 'VOL FOLDER NAME</original_carrier_id' },
-				'PID': { '#text': 'UNKNOWN'},
-				'CP': { '#text': 'UNKNOWN' },
-				'Original_CP': { '#text': 'INSTELLING' }
+
+		'digital_object': {
+			'MediaHAVEN_external_metadata': {
+				'title': { '#text': 'TITRE' },
+				'description': {},
+				'MDProperties': {
+					'dc_titles': {
+						'$type': 'list',
+						'archief': { '#text': 'OORLOG' },
+						'deelarchief': { '#text': 'Clandestien WO I' },
+					},
+					'CreationDate': { '#text': new Date ().toISOString () },
+					'date': { '#text': '1912-12-12' },
+					'original_carrier_id': { '#text': 'VOL FOLDER NAME</original_carrier_id' },
+					'PID': { '#text': 'UNKNOWN'},
+					'CP': { '#text': 'UNKNOWN' },
+					'Original_CP': { '#text': 'INSTELLING' }
+				}
+			}
+		},
+
+		ensemble: {
+			'carrier': {
+				'CP': { '#text': 'Cegesoma' },
+				'PID': { '#text': 'UNKNOWN' },
+				'title': { '#text': 'TITRE' },
+				'description': { '#text': '' },
+				'date': { '#text': '1912-12-2' },
+				'sp_name': { '#text': 'borndigital' },
+				'material_type': { '#text': 'Print' }
 			}
 		}
 	}
 
 });
 
-if ( options['md5'] ) {
-	var checksum = fUtils.calcMD5 (options['md5']);
-	console.log ('md5', '(' + options['md5'] + ')', '=', checksum);
-	process.exit (0);
-}
+var digiObj = options.metadata['digital_object'];
+digiObj['MediaHAVEN_external_metadata'].MDProperties.PID['#text'] = options.pid;
+digiObj['MediaHAVEN_external_metadata'].MDProperties.CP['#text'] = options.agents[0].name;
 
-options.metadata['MediaHAVEN_external_metadata'].MDProperties.PID['#text'] = options.pid;
-options.metadata['MediaHAVEN_external_metadata'].MDProperties.CP['#text'] = options.agents[0].name;
+var ensemble = options.metadata['ensemble'];
+ensemble.carrier.PID['#text'] = options.pid;
 
 var generator = new Generator (options);
 

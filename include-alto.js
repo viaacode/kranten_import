@@ -6,7 +6,7 @@ var options = cmdargs.parse ({
 	directory: './cegesoma'
 });
 
-var embeder = new AltoEmbeder ('', options);
+var embeder = new AltoEmbeder (options);
 
 // embeder.embed ().toString ();
 console.log (embeder.embed ().toString ());

@@ -8,7 +8,7 @@
 	}
 
 	function parse (defaults) {
-		arr = process.argv.slice (2);
+		var arr = process.argv.slice (2);
 		var args = {};
 
 		for ( key in defaults ) {
@@ -22,9 +22,9 @@
 			if ( ! (arg.startsWith ('--')) ) { break; }
 			if ( arg === '--' ) { break; }
 
-			var parts = arg.split ('=', 2);
+			var parts = arg.split ('=');
 			var key = parts[0].substr (2);
-			var val = parts.length > 1 ? toValue (parts[1]) : true;
+			var val = parts.length > 1 ? toValue (parts.slice (1).join ('=')) : true;
 
 			args[key] = val;
 		}

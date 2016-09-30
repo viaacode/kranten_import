@@ -58,15 +58,19 @@ var addNode = xUtils.addNode;
 	}
 
 	AltoEmbeder.prototype.embedAlto = function embedAlto (altofile, content) {
-		this.mets ('mets\\:amdSec').last ().after ('<mets:amdSec />');
-		var amdsec = this.mets ('mets\\:amdSec').last ();
+		var digidata = this.mets ('mets\\:amdSec[ID=SECTION-METADATA-DIGITAL-OBJECT]');
+		var amdsec = digidata.clone ();
 
-		var source = addNode (this.mets, amdsec, [ 'mets:sourceMD' ]);
-		var mdwrap = addNode (this.mets, source, [ 'mets:mdWrap' ]);
-		var have = addNode (this.mets, mdwrap, [ 'mets:xmlData', 'MediaHAVEN_external_metadata']);
+		this.mets ('mets\\:amdSec').last ().after (amdsec);
+		// var amdsec = this.mets ('mets\\:amdSec').last ();
+
+		var source = this.mets ('mets\\:sourceMD', amdsec);
+		var mdwrap = this.mets ('mets\\:mdWrap', source);
+		var have = this.mets ('MediaHAVEN_external_metadata', mdwrap);
+
 		var description = addNode (this.mets, have, [ 'description' ]);
 
-		var props = addNode (this.mets, have, [ 'MDProperties' ]);
+		var props = this.mets ('MDProperties', mdwrap);
 		var transcriptie = addNode (this.mets, props, [ 'dc_description_transcriptie' ]);
 
 		description.text (content);

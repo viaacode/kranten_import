@@ -17,7 +17,14 @@ var options = cmdargs.parse ({
 function ensureValidRequest (data) {
 	var valid = ('source_path' in data) && ('source_file' in data)
 		&& ('destination_path' in data) && ('destination_file' in data);
-	if ( ! valid ) { throw 'Missing properties for successful copy'; }
+	if ( ! valid ) {
+		var err = { 'message': 'Missing properties for successful copy' };
+		for ( var key in data ) {
+			if ( ! data.hasOwnProperty (key) ) { console.log ('not own', key); continue; }
+			err[key] = data[key];
+		}
+		throw err;
+	}
 }
 
 listen (options, function (ch, data, response) {

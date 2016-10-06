@@ -1,5 +1,6 @@
 var cmdargs = require ('../utils/cmdargs');
 var listen = require ('../utils/listener-utils').listen;
+var mkdirp = require('mkdirp');
 
 var fs = require('fs');
 var q = require ('q');
@@ -24,6 +25,8 @@ listen (options, function (ch, data, response) {
 
 	var fromFileName = path.join (data.source_path, data.source_file);
 	var toFileName = path.join (data.destination_path, data.destination_file);
+
+	mkdirp.sync (data.destination_path)
 
 	var deferred = q.defer ();
 

@@ -21,23 +21,27 @@ var chalk = require ('chalk');
 
 	Logger.prototype.log = function log (msg, data) {
 		this.elasticLog (msg, data, 'info');
-		console.log (chalk.bold (' [x] ') + chalk.gray ('(' + this.options._app + ')') + chalk.green (msg));
+		console.log (chalk.bold (' [x] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.green (msg));
 		if ( data ) { printObject (data); }
 	}
 
 	Logger.prototype.warn = function warn (msg, data) {
 		this.elasticLog (msg, data, 'warn');
-		console.log (chalk.bold (' [X] ') + chalk.gray ('(' + this.options._app + ')') + chalk.yellow (msg));
+		console.log (chalk.bold (' [X] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.yellow (msg));
 		if ( data ) { printObject (data, chalk.yellow); }
 	}
 
 	Logger.prototype.error = function error (msg, data) {
 		this.elasticLog (msg, data, 'error');
-		console.log (chalk.bold (' [!] ') + chalk.gray ('(' + this.options._app + ')') + chalk.red (msg));
+		console.log (chalk.bold (' [!] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.red (msg));
 		if ( data ) { printObject (data, chalk.red); }
 	}
 
 	Logger.prototype.elasticLog = function elasticLog (msg, data, lvl) {
+		if ( ! this.options.elasticsearch ) {
+			return;
+		}
+
 		var d = { timestamp: new Date ().toISOString (), 'msg': msg, lvl: lvl || 'info' };
 		if ( data ) { d.pid = data['pid'] || data['correlation_id'] || 'UNKNOWN'; }
 

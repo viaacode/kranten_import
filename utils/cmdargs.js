@@ -10,7 +10,9 @@
 		reconnectTimeout: 10000,
 		reconnectLimit: 10,
 
-		elasticsearch: 'http://localhost:9200/index/sub/'
+		/*
+		 * elasticsearch: 'http://localhost:9200/index/sub/'
+		 */
 	}
 
 	function toValue (val) {
@@ -20,8 +22,15 @@
 		else { return val; }
 	}
 
+	function listenerName () {
+		var name = process.argv[1];
+		var index = name.lastIndexOf ('/');
+		if ( index < 0 ) { return name; }
+		else { return name.substr (index + 1); }
+	}
+
 	function parse (defaults) {
-		var args = { '_app': process.argv[1] };
+		var args = { '_app': listenerName () };
 		var arr = process.argv.slice (2);
 
 		for ( key in globalDefaults ) {

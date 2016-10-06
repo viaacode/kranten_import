@@ -12,13 +12,6 @@ if ( typeof (options.correlationProperties) === 'string' ) {
 	options.correlationProperties = options.correlationProperties.split (',');
 }
 
-function abortOnError (error) {
-	if ( error ) {
-		console.warn (err);
-		process.exit ();
-	}
-}
-
 function ensureObject (obj, props) {
 	var current = obj;
 	for ( var i = 0; i < props.length; i++ ) {
@@ -30,13 +23,13 @@ function ensureObject (obj, props) {
 
 function normalize (data) {
 	ensureObject (data, [ 'metadata', 'digital_object', 'MediaHAVEN_external_metadata', 'MDProperties', 'PID' ]);
-	ensureObject (data, [ 'metadata', 'ensemble', 'carrier', 'PID' ]);
+	// ensureObject (data, [ 'metadata', 'ensemble', 'carrier', 'PID' ]);
 
 	var mdproperties = data.metadata['digital_object']['MediaHAVEN_external_metadata'].MDProperties;
 	mdproperties.PID['#text'] = data.pid;
 	mdproperties.CP['#text'] = data.agents[0].name;
 	mdproperties.CreatonDate = { '#text': new Date ().toISOString () };
-	data.metadata['ensemble'].carrier.PID['#text'] = data.pid;
+	// data.metadata['ensemble'].carrier.PID['#text'] = data.pid;
 
 	return data;
 }

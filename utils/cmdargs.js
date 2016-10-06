@@ -1,5 +1,18 @@
 (function () {
 
+	globalDefaults = {
+		broker: 'amqp://guest:guest@localhost:5672?heartbeat=120',
+		correlationProperties: ['correlation_id', 'pid', 'directory'],
+		listenqueue: 'requests',
+		replyqueue: 'replies',
+		durable: true,
+		acknowledge: true,
+		reconnectTimeout: 10000,
+		reconnectLimit: 10,
+
+		elasticsearch: 'http://localhost:9200/index/sub/'
+	}
+
 	function toValue (val) {
 		if ( val.toLowerCase () === 'true' ) { return true; }
 		else if ( val.toLowerCase () === 'false' ) { return false; }
@@ -8,8 +21,13 @@
 	}
 
 	function parse (defaults) {
+		var args = { '_app': process.argv[1] };
 		var arr = process.argv.slice (2);
-		var args = {};
+
+		for ( key in globalDefaults ) {
+			if ( ! globalDefaults.hasOwnProperty (key) ) { continue; }
+			args[key] = globalDefaults[key];
+		}
 
 		for ( key in defaults ) {
 			if ( ! defaults.hasOwnProperty (key) ) { continue; }

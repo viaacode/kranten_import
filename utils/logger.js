@@ -42,7 +42,11 @@ var chalk = require ('chalk');
 			return;
 		}
 
-		var d = { timestamp: new Date ().toISOString (), 'msg': msg, lvl: lvl || 'info' };
+		var d = {
+			'timestamp': new Date ().toISOString (),
+			'msg': msg, lvl: lvl || 'info',
+			'listener': this.options._app
+		};
 		if ( data ) { d.pid = data['pid'] || data['correlation_id'] || 'UNKNOWN'; }
 
 		for ( var i = 0; i < this.options.correlationProperties.length; i++ ) {

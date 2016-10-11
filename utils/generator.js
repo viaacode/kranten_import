@@ -108,7 +108,7 @@ var calcMimeType = fUtils.calcMimeType;
 
 		this.addAgents (this.config.agents);
 		this.addMetaSection ('METADATA-DIGITAL-OBJECT', this.config.metadata.digital_object);
-		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.ensemble);
+		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.digital_object);
 		this.addFilesSection (files);
 		this.addStructureMap ();
 

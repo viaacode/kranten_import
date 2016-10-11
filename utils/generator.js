@@ -69,7 +69,7 @@ var calcMimeType = fUtils.calcMimeType;
 			var filenode = addNode (this.xml, group, ['mets:file']);
 			var loc = addNode (this.xml, filenode, ['mets:FLocat']);
 
-			filenode.attr ('ID', pathToId (file));
+			filenode.attr ('ID', 'id_' + pathToId (file));
 			filenode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT');
 			filenode.attr ('MIMETYPE', calcMimeType (file));
 			filenode.attr ('CHECKSUM', calcMD5 (this.config.directory + '/' + file));
@@ -83,7 +83,7 @@ var calcMimeType = fUtils.calcMimeType;
 		var metsnode = addNode (this.xml, group, ['mets:file']);
 		var loc = addNode (this.xml, metsnode, ['mets:FLocat']);
 
-		metsnode.attr ('ID', id + '_mets');
+		metsnode.attr ('ID', 'id_' + id + '_mets');
 		metsnode.attr ('MIMETYPE', 'application/xml');
 		// todo make configurable (pick TAPE-RESTRICTED-NOEVENTS by default);
 		metsnode.attr ('USE', 'DISK-RESTRICTED-NOEVENTS');

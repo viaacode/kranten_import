@@ -6,7 +6,6 @@ var q = require ('q');
 var path = require ('path');
 
 var options = cmdargs.parse ({
-	correlationProperties: ['correlation_id', 'pid', 'directory' ],
 	listenqueue: 'rm-requests',
 	replyqueue: 'rm-replies',
 });

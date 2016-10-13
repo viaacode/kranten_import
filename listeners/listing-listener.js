@@ -4,7 +4,6 @@ var listen = require ('../utils/listener-utils').listen;
 var fUtils = require ('../utils/file-utils');
 
 var options = cmdargs.parse ({
-	correlationProperties: ['correlation_id', 'pid', 'directory'],
 	listenqueue: 'listing-requests',
 	replyqueue: 'listing-replies',
 	excludes: []

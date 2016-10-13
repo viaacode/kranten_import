@@ -3,7 +3,6 @@ var AltoEmbeder = require ('../utils/alto').AltoEmbeder;
 var listen = require ('../utils/listener-utils').listen;
 
 var options = cmdargs.parse ({
-	correlationProperties: ['correlation_id', 'pid', 'directory'],
 	listenqueue: 'alto-requests',
 	replyqueue: 'alto-replies',
 });

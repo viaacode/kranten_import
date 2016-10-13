@@ -5,11 +5,7 @@ var amqp = require('amqplib/callback_api');
 var chalk = require ('chalk');
 
 var options = cmdargs.parse ({
-	broker: 'amqp://guest:guest@localhost:5672?heartbeat=120',
-	correlationProperties: ['correlation_id', 'pid', 'directory'],
 	listenqueue: '',
-	durable: false,
-	acknoledge: true
 });
 
 amqp.connect (options.broker, function (err, conn) {

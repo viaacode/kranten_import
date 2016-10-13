@@ -85,8 +85,7 @@ var calcMimeType = fUtils.calcMimeType;
 
 		metsnode.attr ('ID', 'id_' + id + '_mets');
 		metsnode.attr ('MIMETYPE', 'application/xml');
-		// todo make configurable (pick TAPE-RESTRICTED-NOEVENTS by default);
-		metsnode.attr ('USE', 'DISK-RESTRICTED-NOEVENTS');
+		metsnode.attr ('USE', this.config.fileUse);
 		loc.attr ('LOCTYPE', 'OTHER');
 		loc.attr ('xlink:href', id + '_mets.xml');
 	}

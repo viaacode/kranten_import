@@ -45,7 +45,7 @@ var q = require ('q');
 
 		return amqp.connect (this.options.broker).catch (function (err) {
 			this.logger.warn ('connection attempt failed ...', { broker_url: this.options.broker, err: err.message });
-			this.logger.warn (`retrying in ${this.options.recconectTimeout} miliseconds (attempt ${count})`);
+			this.logger.warn (`retrying in ${this.options.reconnectTimeout} milliseconds (attempt ${count})`);
 			console.warn (err);
 
 			var deferred = q.defer ();

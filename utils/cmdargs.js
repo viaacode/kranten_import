@@ -19,6 +19,11 @@
 		if ( val.toLowerCase () === 'true' ) { return true; }
 		else if ( val.toLowerCase () === 'false' ) { return false; }
 		else if ( val.match (/^\d+(\.\d+)?$/) ) { return parseFloat (val); }
+		else if ( val.indexOf (',') !== -1 ) {
+			return val.split (',').map (function (value) {
+				return toValue (value);
+			});
+		}
 		else { return val; }
 	}
 

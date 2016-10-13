@@ -43,7 +43,7 @@ The listeners can also log messages and errors to an elastic search database. Th
 only happen if a url is configured to an elastic search.
 
 ```sh
-$ node ... --elasticsearch='http://host:port/index/sub-index
+$ node ... --elasticsearch='http://host:port/index/type
 ```
 
 
@@ -66,7 +66,7 @@ Request message structure:
 	"correlation_id": "4746q1wv0v",
 	"pid": "4746q1wv0v",
 	"directory": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex",
-	"agents": [{ ... }, { ... }]
+	"agents": [{ ... }, { ... }],
 	"metadata": { ... },
 	"fileUse": "DISK-SHARE-EVENTS"
 }
@@ -142,7 +142,7 @@ Object to xml:
 		{
 			"$property": "455",
 			"#text": "Fox and hound"
-		}
+		},
 		"#text": "The quick brown fox jumped over the lazy dog."
 	}
 }
@@ -247,10 +247,10 @@ Copies a file from one location to another both paths are assumed to be accessib
 {
 	"correlation_id": "4746q1wv0v",
 	"pid": "4746q1wv0v",
-	'destination_path': "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex/tiff",
-	'destination_file': "00001_tiff.tif",
-	'source_path': "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/",
-	'source_file': "00001.tif",
+	"destination_path": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex/tiff",
+	"destination_file": "00001_tiff.tif",
+	"source_path": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/",
+	"source_file": "00001.tif",
 }
 ```
 
@@ -261,10 +261,10 @@ response:
 	"success": true,
 	"correlation_id": "4746q1wv0v",
 	"pid": "4746q1wv0v",
-	'destination_path': "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex/tiff",
-	'destination_file': "00001_tiff.tif",
-	'source_path': "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/",
-	'source_file': "00001.tif",
+	"destination_path": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex/tiff",
+	"destination_file": "00001_tiff.tif",
+	"source_path": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/",
+	"source_file": "00001.tif",
 }
 ```
 

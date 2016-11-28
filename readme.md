@@ -1,6 +1,6 @@
 # Kranten listeners.
 
-Collection of microservices that can turn a folder of with `tif` and `alto` files into a
+Collection of microservices that can turn a folder with `tif` and `alto` files into a
 compatible format (`.complex`).
 
 ## Starting the listeners and options
@@ -160,10 +160,10 @@ Notes:
 
 At some places the pid of the message is used, the pid in messages is used and copied over
 in some places. However there is no mechanism to indicate that the worker should do this
-for arbitrary fields. It these case whoever posted the request to the queue is responsible
-for making sure the pid's match.
+for arbitrary fields. It this case, whoever posted the request to the queue is responsible
+for making sure the pids match.
 
-An `ensemble` section will be put in the met file that is a copy of the `digital_object`
+An `ensemble` section will be put in the mets file that is a copy of the `digital_object`
 section.
 
 
@@ -241,7 +241,7 @@ $ node ./listeners/listing-listener.js ... --excludes='.git,.svn'
 
 ### copy-listener
 
-Copies a file from one location to another both paths are assumed to be accessible on disk.
+Copies a file from one location to another. Both paths are assumed to be accessible on disk.
 
 ```json
 {
@@ -297,12 +297,12 @@ Response example:
 
 ### forward-listener
 
-Takes a message from it's listen queues and copies it over to the reply queue. This is
-used when some worker places messages on a queue that are intended for a service that is
+Takes a message from its listen queues and copies it over to the reply queue. This is
+used when some worker places messages on a queue which are intended for a service that is
 not listening on that queue.
 
-For instance both the jp2 generator and the zipper will signal that their actions have
-completed, but both of these are needed to figure out if a directory is ready to have it's
+For instance both the jp2 generator and the zipper will signal that their actions were
+completed, but both of these are needed to figure out if a directory is ready to have its
 mets file generated.
 
 ### clean-listener

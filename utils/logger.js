@@ -49,10 +49,14 @@ var chalk = require ('chalk');
 		};
 		if ( data ) { d.pid = data['pid'] || data['correlation_id'] || 'UNKNOWN'; }
 
-		for ( var i = 0; i < this.options.correlationProperties.length; i++ ) {
-			var key = this.options.correlationProperties[i];
-			if ( data[key] ) { d[key] = data[key]; }
-		}
+		if (data) {
+            for (var i = 0; i < this.options.correlationProperties.length; i++) {
+                var key = this.options.correlationProperties[i];
+                if (data[key]) {
+                    d[key] = data[key];
+                }
+            }
+        }
 		if ( data ) { d.data = data; }
 
 		var body = JSON.stringify (d);

@@ -23,6 +23,7 @@ var crypto = require ('crypto');
 		while ( nr = fs.readSync (fd, buffer, 0, buffer.length) ) {
 			hash.update (buffer.slice (0, nr));
 		}
+		fs.close(fd);
 		return hash.digest ('hex');
 	}
 

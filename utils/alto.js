@@ -19,7 +19,9 @@ var addNode = xUtils.addNode;
 
 	function loadXmlFile (file) {
 		var fd = fs.openSync (file, 'r');
-		return cheerio.load (fs.readFileSync (fd), { xmlMode: true });
+		var xml = cheerio.load (fs.readFileSync (fd), { xmlMode: true });
+		fd.close();
+		return xml;
 	}
 
 	function AltoEmbeder (config, params) {

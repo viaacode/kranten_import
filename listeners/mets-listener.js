@@ -26,7 +26,7 @@ function normalize (data) {
 
 	var mdproperties = data.metadata['digital_object']['MediaHAVEN_external_metadata'].MDProperties;
 	mdproperties.PID['#text'] = data.pid;
-	mdproperties.CP['#text'] = data.agents[0].name;
+	//mdproperties.CP['#text'] = data.agents[0].name;
 	mdproperties.CreatonDate = { '#text': new Date ().toISOString () };
 	// data.metadata['ensemble'].carrier.PID['#text'] = data.pid;
 

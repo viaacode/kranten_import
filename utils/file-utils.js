@@ -54,13 +54,17 @@ var crypto = require ('crypto');
 
 		while ( todo.length > 0 ) {
 			var file = todo.pop ();
-			var stat = fs.statSync (directory + '/' + file);
+			try {
+                var stat = fs.statSync (directory + '/' + file);
 
-			if ( stat.isDirectory () ) {
-				pushAll (file, fs.readdirSync (directory + '/' + file));
-			} else {
-				var path = full ? directory + '/' + file : file
-				files.push (path);
+                if ( stat.isDirectory () ) {
+                    pushAll (file, fs.readdirSync (directory + '/' + file));
+                } else {
+                    var path = full ? directory + '/' + file : file
+                    files.push (path);
+                }
+			} catch (err) {
+
 			}
 		}
 

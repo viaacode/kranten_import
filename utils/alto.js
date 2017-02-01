@@ -20,7 +20,7 @@ var addNode = xUtils.addNode;
 	function loadXmlFile (file) {
 		var fd = fs.openSync (file, 'r');
 		var xml = cheerio.load (fs.readFileSync (fd), { xmlMode: true });
-		fd.close();
+		fs.close(fd);
 		return xml;
 	}
 

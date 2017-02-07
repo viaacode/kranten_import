@@ -70,19 +70,15 @@ var calcMimeType = fUtils.calcMimeType;
 			var loc = addNode (this.xml, filenode, ['mets:FLocat']);
 
 			var mimetype = calcMimeType(file);
+            var simpletype = calcSimpleType(file);
 
 			filenode.attr ('ID', 'id_' + pathToId (file));
 			filenode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT');
-			filenode.attr ('MIMETYPE', calcMimeType (file));
+			filenode.attr ('MIMETYPE', mimetype);
 			filenode.attr ('CHECKSUM', calcMD5 (this.config.directory + '/' + file));
 			filenode.attr ('CHECKSUMTYPE', 'MD5');
 			// MAKE SURE TIFS ARE SET TO fileUse.essence, others to fileUse.other
-			if (mimetype == "image/tif" || mimetype == "application/zip") {
-                filenode.attr ('USE', this.config.fileUse.essence);
-
-            } else {
-                filenode.attr ('USE', this.config.fileUse.other);
-			}
+			filenode.attr ('USE', this.config.fileUse[simpletype]);
 			loc.attr ('LOCTYPE', 'OTHER');
 			loc.attr ('xlink:href', file);
 		}.bind (this));

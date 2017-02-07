@@ -68,12 +68,18 @@ Request message structure:
 	"directory": "/export/home/viaa/incoming/cegesoma/UGent_BIB.J.000237_1917-11-03_01_000/_complex",
 	"agents": [{ ... }, { ... }],
 	"metadata": { ... },
-	"fileUse": "DISK-SHARE-EVENTS"
+	"fileUse": {
+	    "essence": "TAPE-SHARE-EVENTS",
+	    "browse": "DISK-SHARE-EVENTS",
+	    "metadata": "DISK-SHARE-EVENTS",
+	    "video": "TAPE-SHARE-EVENTS",
+	    "archive": "TAPE-SHARE-EVENTS"
+	}
 }
 ```
 
 `fileUse` is a string that will be placed on the `USE` property of every file tag in the
-mets file, for instance `DISK-SHARE-EVENTS`.
+mets file, depending on the type of the file. For instance `DISK-SHARE-EVENTS`.
 
 `agents` is an array of objects, each object contains the roles that the agent has, its type
 and its name. These are put in the `mets:metsHdr` section of the mets file.

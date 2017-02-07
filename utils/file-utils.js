@@ -12,7 +12,18 @@ var crypto = require ('crypto');
 		'.mov': 'video/quicktime',
 		'.dpx': 'mage/x-dpx',
 		'.zip': 'application/zip'
-	}
+	};
+
+    var simpleTypes = {
+        '.tif': 'essence',
+        '.tiff': 'essence',
+        '.jp2': 'browse',
+        '.jpg': 'browse',
+        '.xml': 'metadata',
+        '.mov': 'video',
+        '.dpx': 'video',
+        '.zip': 'archive'
+    };
 
 	function calcMD5 (file) {
 		var fd = fs.openSync (file, 'r');
@@ -31,6 +42,12 @@ var crypto = require ('crypto');
 		var index = filename.lastIndexOf ('.');
 		var extension = filename.substr (index);
 		return types[extension] || 'application/octet-stream';
+	}
+
+	function calcSimpleType (filename) {
+        var index = filename.lastIndexOf ('.');
+        var extension = filename.substr (index);
+        return simpleTypes[extension] || 'unknown';
 	}
 
 	function getPageNumber (file) {
@@ -75,7 +92,8 @@ var crypto = require ('crypto');
 		calcMD5: calcMD5,
 		calcMimeType: calcMimeType,
 		findFiles: findFiles,
-		getPageNumber: getPageNumber
+		getPageNumber: getPageNumber,
+		calcSimpleType: calcSimpleType
 	};
 
 } ());

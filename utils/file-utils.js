@@ -20,8 +20,8 @@ var crypto = require ('crypto');
         '.jp2': 'browse',
         '.jpg': 'browse',
         '.xml': 'metadata',
-        '.mov': 'video',
-        '.dpx': 'video',
+        '.mov': 'essence',
+        '.dpx': 'essence',
         '.zip': 'archive'
     };
 

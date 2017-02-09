@@ -8,6 +8,7 @@ var addObjects = xUtils.addObjects;
 var fUtils = require ('./file-utils');
 var calcMD5 = fUtils.calcMD5;
 var calcMimeType = fUtils.calcMimeType;
+var calcSimpleType = fUtils.calcSimpleType;
 
 (function () {
 

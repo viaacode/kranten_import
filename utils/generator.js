@@ -87,9 +87,9 @@ var calcSimpleType = fUtils.calcSimpleType;
 		var metsnode = addNode (this.xml, group, ['mets:file']);
 		var loc = addNode (this.xml, metsnode, ['mets:FLocat']);
 		metsnode.attr ('ID', 'id_' + id + '_mets');
-		metsnode.attr ('MIMETYPE', 'application/xml');
+		metsnode.attr ('MIMETYPE', 'text/xml');
 		metsnode.attr ('ADMID', 'METADATA-ENSEMBLE');
-		metsnode.attr ('USE', this.config.fileUse[calcSimpleType('filename_mets.xml')]);
+		metsnode.attr ('USE', 'DISK-RESTRICTED-NOEVENTS');
 		loc.attr ('LOCTYPE', 'OTHER');
 		loc.attr ('xlink:href', id + '_mets.xml');
 	}

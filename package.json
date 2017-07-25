@@ -1,17 +1,18 @@
 {
-	"name": "kranten-export",
-	"version": "1.0.0",
-	"description": "generate mets file for directory",
-	"main": "main.js",
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"amqplib": "^0.4.2",
-		"chalk": "^1.1.3",
-		"cheerio": "^0.22.0",
-		"fs-extra": "^0.30.0",
-		"mkdirp": "^0.5.1",
-		"q": "^1.4.1",
-		"uuid": "^2.0.0"
-	}
+  "name": "kranten-export",
+  "version": "1.0.0",
+  "description": "generate mets file for directory",
+  "main": "main.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.4.2",
+    "chalk": "^1.1.3",
+    "cheerio": "^0.22.0",
+    "fs-extra": "^0.30.0",
+    "mkdirp": "^0.5.1",
+    "q": "^1.4.1",
+    "sugar-date": "^2.0.4",
+    "uuid": "^2.0.0"
+  }
 }

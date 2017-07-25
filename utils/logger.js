@@ -3,7 +3,6 @@ var url = require ('url');
 var chalk = require ('chalk');
 
 (function () {
-
 	function printObject (obj, formatter) {
 		formatter = formatter || function (msg) { return msg; };
 		JSON.stringify (obj, null, '\t').split ('\n').forEach (function (line) {
@@ -41,14 +40,14 @@ var chalk = require ('chalk');
 		if ( ! this.options.elasticsearch ) {
 			return;
 		}
-
+        console.log('a');
 		var d = {
-			'timestamp': new Date ().toISOString (),
+			'timestamp': new Date ().toISOString(),
 			'msg': msg, lvl: lvl || 'info',
 			'listener': this.options._app
 		};
 		if ( data ) { d.pid = data['pid'] || data['correlation_id'] || 'UNKNOWN'; }
-
+        console.log('b');
 		if (data) {
             for (var i = 0; i < this.options.correlationProperties.length; i++) {
                 var key = this.options.correlationProperties[i];
@@ -58,12 +57,13 @@ var chalk = require ('chalk');
             }
         }
 		if ( data ) { d.data = data; }
-
+        console.log('DATABEFORE:\n', d);
 		var body = JSON.stringify (d);
+        console.log('DATA:\n', body);
 		var requestOptions = url.parse (this.options.elasticsearch);
 		requestOptions.method = 'post';
 		requestOptions.headers = {
-			'Content-Type': 'application.json',
+			'Content-Type': 'application/json',
 			'Content-Length': Buffer.byteLength (body)
 		}
 
@@ -73,9 +73,11 @@ var chalk = require ('chalk');
 				console.warn ('     ' + err.message);
 			});
 		});
-
+        console.log('d');
 		req.write (body);
+        console.log('e');
 		req.end ();
+        console.log('f');
 	}
 
 	module.exports = {

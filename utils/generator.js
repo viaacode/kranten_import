@@ -9,6 +9,7 @@ var fUtils = require ('./file-utils');
 var calcMD5 = fUtils.calcMD5;
 var calcMimeType = fUtils.calcMimeType;
 var calcSimpleType = fUtils.calcSimpleType;
+var Date = require('sugar-date').Date;
 
 (function () {
 
@@ -29,8 +30,8 @@ var calcSimpleType = fUtils.calcSimpleType;
 		var header = addNode (this.xml, this.root, ['mets:metsHdr']);
 
 		header.attr ('ID', 'VIAA');
-		header.attr ('CREATEDATE', new Date ().toISOString ());
-		header.attr ('LASTMODDATE', new Date ().toISOString ());
+		header.attr ('CREATEDATE', new Date ().format ('{dd}/{MM}/{yyyy} {hh}:{mm}:{ss}.{SSS}').toString());
+		header.attr ('LASTMODDATE', new Date ().format ('{dd}/{MM}/{yyyy} {hh}:{mm}:{ss}.{SSS}').toString());
 
 		agents.forEach (function (agent) {
 			header.append ('<mets:agent />');

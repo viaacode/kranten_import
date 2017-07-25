@@ -116,6 +116,7 @@ var q = require ('q');
 	}
 
 	Connection.prototype.consumer = function consumer (msg) {
+        console.log('0');
 		var data = JSON.parse (msg.content.toString ());
 
 		var response = { success: true };
@@ -126,6 +127,8 @@ var q = require ('q');
 		var promise;
 		try { promise = q (this.fn (this.channel, data, response) || response); }
 		catch (e) { promise = q.reject (e); }
+		
+		console.log('1');
 
 		promise = promise.catch (function (err) {
 			this.logger.error ('Error while processing message', { error: err.message });
@@ -135,8 +138,10 @@ var q = require ('q');
 			response.error = err.message;
 			return response;
 		}.bind (this));
+        console.log('2');
 
 		promise = promise.finally (function (r) {
+            console.log('!!!');
 			this.logger.log (`(from ${this.options.listenqueue}) Recieved request ...`, data);
 			this.logger.log (`(to ${this.options.replyqueue}) Replying with ...`, response);
 		}.bind (this));

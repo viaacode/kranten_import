@@ -1,7 +1,7 @@
 var cmdargs = require ('../utils/cmdargs');
 var Generator = require ('../utils/generator').Generator;
 var listen = require ('../utils/listener-utils').listen;
-var Date = require('sugar-date').Sugar().Date;
+var Date = require('sugar-date').Date;
 
 var options = cmdargs.parse ({
 	listenqueue: 'mets-requests',
@@ -24,13 +24,12 @@ function ensureObject (obj, props) {
 function normalize (data) {
 	ensureObject (data, [ 'metadata', 'digital_object', 'MediaHAVEN_external_metadata', 'MDProperties', 'PID' ]);
 	// ensureObject (data, [ 'metadata', 'ensemble', 'carrier', 'PID' ]);
-	var MEM = data.metadata['digital_object']['MediaHAVEN_external_metadata'];
 	var mdproperties = data.metadata['digital_object']['MediaHAVEN_external_metadata'].MDProperties;
 	mdproperties.PID['#text'] = data.pid;
 	//mdproperties.CP['#text'] = data.agents[0].name;
-    MEM.CreationDate = { '#text': new Date.format('%Y:%m:%dT%H:%M:%S.{SSS}Z') };
+    //console.log(new Date().format('{yyyy}:{MM}:{dd} {hh}:{mm}:{ss}.{SSS}'));
+    data.metadata['digital_object']['MediaHAVEN_external_metadata'].CreationDate = { '#text': new Date().format('{yyyy}:{MM}:{dd} {hh}:{mm}:{ss}.{SSS}').raw};
 	// data.metadata['ensemble'].carrier.PID['#text'] = data.pid;
-
 	return data;
 }
 

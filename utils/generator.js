@@ -30,8 +30,8 @@ var Date = require('sugar-date').Date;
 		var header = addNode (this.xml, this.root, ['mets:metsHdr']);
 
 		header.attr ('ID', 'VIAA');
-		header.attr ('CREATEDATE', new Date ().format ('{dd}-{MM}-{yyyy}T{hh}:{mm}:{ss}.{SSS}Z').toString());
-		header.attr ('LASTMODDATE', new Date ().format ('{dd}-{MM}-{yyyy}T{hh}:{mm}:{ss}.{SSS}Z').toString());
+		header.attr ('CREATEDATE', new Date ().format ('{yyyy}-{MM}-{dd}T{hh}:{mm}:{ss}.{SSS}Z').toString());
+		header.attr ('LASTMODDATE', new Date ().format ('{yyyy}-{MM}-{dd}T{hh}:{mm}:{ss}.{SSS}Z').toString());
 
 		agents.forEach (function (agent) {
 			header.append ('<mets:agent />');

@@ -64,7 +64,7 @@ var Date = require('sugar-date').Date;
 
 		group.attr ('ID', 'id_' + id);
 		group.attr ('ADMID', 'METADATA-ENSEMBLE');
-		group.attr ('USE', 'DISK-NOSHARE-EVENTS');
+		group.attr ('USE', 'DISK-SHARE-EVENTS');
 
 		var id = this.config.pid;
 		files.forEach (function (file) {
@@ -90,7 +90,7 @@ var Date = require('sugar-date').Date;
 		metsnode.attr ('ID', 'id_' + id + '_mets');
 		metsnode.attr ('MIMETYPE', 'text/xml');
 		metsnode.attr ('ADMID', 'METADATA-ENSEMBLE');
-		metsnode.attr ('USE', 'DISK-RESTRICTED-NOEVENTS');
+		metsnode.attr ('USE', 'DISK-SHARE-EVENTS');
 		loc.attr ('LOCTYPE', 'OTHER');
 		loc.attr ('xlink:href', id + '_mets.xml');
 	}

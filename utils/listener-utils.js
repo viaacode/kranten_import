@@ -126,6 +126,7 @@ var q = require ('q');
 		var promise;
 		try { promise = q (this.fn (this.channel, data, response) || response); }
 		catch (e) { promise = q.reject (e); }
+		
 
 		promise = promise.catch (function (err) {
 			this.logger.error ('Error while processing message', { error: err.message });

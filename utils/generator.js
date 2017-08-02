@@ -9,6 +9,7 @@ var fUtils = require ('./file-utils');
 var calcMD5 = fUtils.calcMD5;
 var calcMimeType = fUtils.calcMimeType;
 var calcSimpleType = fUtils.calcSimpleType;
+var Date = require('sugar-date').Date;
 
 (function () {
 
@@ -29,8 +30,8 @@ var calcSimpleType = fUtils.calcSimpleType;
 		var header = addNode (this.xml, this.root, ['mets:metsHdr']);
 
 		header.attr ('ID', 'VIAA');
-		header.attr ('CREATEDATE', new Date ().toISOString ());
-		header.attr ('LASTMODDATE', new Date ().toISOString ());
+		header.attr ('CREATEDATE', new Date ().format ('{yyyy}-{MM}-{dd}T{hh}:{mm}:{ss}.{SSS}Z').toString());
+		header.attr ('LASTMODDATE', new Date ().format ('{yyyy}-{MM}-{dd}T{hh}:{mm}:{ss}.{SSS}Z').toString());
 
 		agents.forEach (function (agent) {
 			header.append ('<mets:agent />');
@@ -63,7 +64,7 @@ var calcSimpleType = fUtils.calcSimpleType;
 
 		group.attr ('ID', 'id_' + id);
 		group.attr ('ADMID', 'METADATA-ENSEMBLE');
-		group.attr ('USE', 'DISK-NOSHARE-EVENTS');
+		group.attr ('USE', 'DISK-SHARE-EVENTS');
 
 		var id = this.config.pid;
 		files.forEach (function (file) {
@@ -89,7 +90,7 @@ var calcSimpleType = fUtils.calcSimpleType;
 		metsnode.attr ('ID', 'id_' + id + '_mets');
 		metsnode.attr ('MIMETYPE', 'text/xml');
 		metsnode.attr ('ADMID', 'METADATA-ENSEMBLE');
-		metsnode.attr ('USE', 'DISK-RESTRICTED-NOEVENTS');
+		metsnode.attr ('USE', 'DISK-SHARE-EVENTS');
 		loc.attr ('LOCTYPE', 'OTHER');
 		loc.attr ('xlink:href', id + '_mets.xml');
 	}

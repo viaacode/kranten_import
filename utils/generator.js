@@ -111,7 +111,7 @@ var Date = require('sugar-date').Date;
 		var files = fUtils.findFiles (this.config.directory);
 
 		this.addAgents (this.config.agents);
-		this.addMetaSection ('METADATA-DIGITAL-OBJECT', this.config.metadata.digital_object);
+		//this.addMetaSection ('METADATA-DIGITAL-OBJECT', this.config.metadata.digital_object);
 		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.digital_object);
 		this.addFilesSection (files);
 		this.addStructureMap ();

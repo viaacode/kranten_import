@@ -34,7 +34,7 @@ var addNode = xUtils.addNode;
 	AltoEmbeder.prototype.listAltos = function listAltos () {
 		return fUtils.findFiles (this.config.directory)
 			.filter (function (file) {
-				return file.indexOf ('alto') !== -1 && file.endsWith ('.xml');
+				return file.indexOf ('_alto') !== -1 || file.indexOf ('_jp2') !== -1 || file.indexOf ('_tif') !== -1;
 			})
 			.map (function (file) {
 				return this.config.directory + '/' + file;
@@ -42,14 +42,35 @@ var addNode = xUtils.addNode;
 	}
 
 	AltoEmbeder.prototype.embed = function embed () {
-		var altos = this.listAltos ();
-
+		var altos = this.listAltos ().sort((a, b) => {
+			if (a.indexOf('_alto') !== -1 && b.indexOf('_alto') !== -1) {
+				// Both are alto files
+				return 0;
+			}
+			if (a.indexOf('_alto') !== -1) {
+				return -1;
+			}
+			if (b.indexOf('_alto') !== -1) {
+				return 1;
+			}
+		});
+		var ocrdata = {};
 		altos.forEach (function (altofile) {
-			var alto = loadXmlFile (altofile);
-			var contents = alto ('String').map (function (index, node) {
-				return alto (node).attr ('CONTENT');
-			}).get ().join (' ');
-			this.embedAlto (altofile, contents);
+			if (altofile.indexOf('.xml') !== -1) {
+                var alto = loadXmlFile(altofile);
+                var contents = alto('String').map(function (index, node) {
+                    return alto(node).attr('CONTENT');
+                }).get().join(' ');
+                ocrdata[fUtils.getPageNumber (altofile)] = contents;
+                this.embedAlto(altofile, contents);
+            } else {
+				if (ocrdata[fUtils.getPageNumber(altofile)] !== undefined && ocrdata[fUtils.getPageNumber(altofile)] !== null && ocrdata[fUtils.getPageNumber(altofile)] !== '') {
+					var contents = ocrdata[fUtils.getPageNumber(altofile)];
+				} else {
+					var contents = '';
+				}
+                this.embedAlto(altofile, contents);
+			}
 		}.bind (this));
 
 		if ( this.params.writeToDisk ) {
@@ -74,18 +95,31 @@ var addNode = xUtils.addNode;
 
 		var props = this.mets ('MDProperties', mdwrap);
 		var transcriptie = addNode (this.mets, props, [ 'dc_description_transcriptie' ]);
-
-		description.text (content);
-		transcriptie.text (content);
+        var pageNr = fUtils.getPageNumber (altofile);
+        var type = altofile.match(new RegExp(/.*_[0-9]+_(.*)\..*$/))[1];
+		var pid = this.mets ('PID', have);
+		var prevpid = pid.text();
+		pid.text(prevpid + '_' + pageNr + '_' + type);
+		if (content !== undefined && content !== null && content !== '') {
+            description.text(content);
+            transcriptie.text(content);
+        }
 
 		mdwrap.attr ('MDTYPE', 'OTHER');
 		mdwrap.attr ('OTHERMDTYPE', 'VIAA-XML');
-		var pageNr = fUtils.getPageNumber (altofile);
-		var altoId = 'METADATA-DIGITALOBJECT-OCR-' + pageNr;
+
+
+		var uppertype = type.toUpperCase();
+		if (uppertype === 'ALTO') {
+            var altoId = 'METADATA-DIGITALOBJECT-OCR-' + pageNr;
+		}
+		else {
+            var altoId = 'METADATA-DIGITALOBJECT-' + uppertype + '-' + pageNr;
+		}
 		source.attr ('ID', altoId);
 		amdsec.attr ('ID', 'SECTION-' + altoId);
 
-		this.mets ('mets\\:file[ID*=' + pageNr + ']').each (function (index, item) {
+		this.mets ('mets\\:file[ID*=' + pageNr + '_' + type + ']').each (function (index, item) {
 			var node = this.mets (item);
 			node.attr ('ADMID', /* node.attr ('ADMID') + ' ' + */ altoId);
 		}.bind (this));

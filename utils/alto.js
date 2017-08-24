@@ -81,7 +81,7 @@ var addNode = xUtils.addNode;
 	}
 
 	AltoEmbeder.prototype.embedAlto = function embedAlto (altofile, content) {
-		var digidata = this.mets ('mets\\:amdSec[ID=SECTION-METADATA-DIGITAL-OBJECT]');
+		var digidata = this.mets ('mets\\:amdSec[ID=SECTION-METADATA-ENSEMBLE]');
 		var amdsec = digidata.clone ();
 
 		this.mets ('mets\\:amdSec').last ().after (amdsec);

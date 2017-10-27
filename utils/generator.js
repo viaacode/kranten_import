@@ -10,6 +10,7 @@ var calcMD5 = fUtils.calcMD5;
 var calcMimeType = fUtils.calcMimeType;
 var calcSimpleType = fUtils.calcSimpleType;
 var Date = require('sugar-date').Date;
+var Logger = require('./logger').Logger;
 
 (function () {
 
@@ -109,6 +110,14 @@ var Date = require('sugar-date').Date;
 		this.root.attr ('xsi:schemaLocation', xUtils.locations.join (' '));
 
 		var files = fUtils.findFiles (this.config.directory);
+		var tiffFiles = files.filter((f) => {return f.indexOf('.tif') > 0} );
+        var jp2Files = files.filter((f) => {return f.indexOf('.jp2') > 0} );
+		var tiffFileCount = tiffFiles.length;
+		var jp2FileCount = jp2Files.length;
+
+		if (tiffFileCount != jp2FileCount) {
+			throw ('TIFF FILE COUNT (' + tiffFileCount + ') != JP2 FILE COUNT (' + jp2FileCount + ')! ABORT!');
+		}
 
 		this.addAgents (this.config.agents);
 		//this.addMetaSection ('METADATA-DIGITAL-OBJECT', this.config.metadata.digital_object);

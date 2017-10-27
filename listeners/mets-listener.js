@@ -28,7 +28,7 @@ function normalize (data) {
 	mdproperties.PID['#text'] = data.pid;
 	//mdproperties.CP['#text'] = data.agents[0].name;
     //console.log(new Date().format('{yyyy}:{MM}:{dd} {hh}:{mm}:{ss}.{SSS}'));
-    mdproperties.CreationDate = { '#text': new Date().format('{yyyy}:{MM}:{dd} {hh}:{mm}:{ss}.{SSS}').raw};
+    //mdproperties.CreationDate = { '#text': new Date().format('{yyyy}:{MM}:{dd} {hh}:{mm}:{ss}.{SSS}').raw};
 	// data.metadata['ensemble'].carrier.PID['#text'] = data.pid;
 	return data;
 }

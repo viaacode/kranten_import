@@ -10,7 +10,7 @@ var addNode = xUtils.addNode;
 	function findMets (directory) {
 		var files = fs.readdirSync (directory);
 		var candidates = files.filter (function (file) {
-			return file.indexOf ('mets') !== -1;
+			return file.indexOf ('_mets') !== -1;
 		});
 
 		if ( candidates.length < 1 ) { throw 'no mets file found'; }

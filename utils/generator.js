@@ -76,7 +76,7 @@ var Logger = require('./logger').Logger;
             var simpletype = calcSimpleType(file);
 
 			filenode.attr ('ID', 'id_' + pathToId (file));
-			filenode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT');
+			filenode.attr ('ADMID', 'METADATA-ENSEMBLE');
 			filenode.attr ('MIMETYPE', mimetype);
 			filenode.attr ('CHECKSUM', calcMD5 (this.config.directory + '/' + file));
 			filenode.attr ('CHECKSUMTYPE', 'MD5');

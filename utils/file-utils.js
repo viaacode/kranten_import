@@ -23,7 +23,8 @@ var crypto = require ('crypto');
         '.xml': 'metadata',
         '.mov': 'essence',
         '.dpx': 'essence',
-        '.zip': 'archive'
+        '.zip': 'archive',
+	'.pdf': 'browse'
     };
 
 	function calcMD5 (file) {

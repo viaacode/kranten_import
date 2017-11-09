@@ -53,7 +53,7 @@ var crypto = require ('crypto');
 	}
 
 	function getPageNumber (file) {
-		var regex = /_\d+_(\d+)_[^\/]+/;
+		var regex = /_(\d+)_[^\/]+$/;
 		var match = regex.exec (file);
 		return match[1];
 	}

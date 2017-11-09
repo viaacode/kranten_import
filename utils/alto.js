@@ -96,11 +96,10 @@ var addNode = xUtils.addNode;
 		var props = this.mets ('MDProperties', mdwrap);
 		var transcriptie = addNode (this.mets, props, [ 'dc_description_transcriptie' ]);
         var pageNr = fUtils.getPageNumber (altofile);
-        var date = altofile.match(new RegExp(/.*\/.*_([0-9]*)_.*_.*/))[1];
         var type = altofile.match(new RegExp(/.*_[0-9]+_(.*)\..*$/))[1];
 		var pid = this.mets ('PID', have);
 		var prevpid = pid.text();
-		pid.text(prevpid + '_' + date + '_' + pageNr + '_' + type);
+		pid.text(prevpid + '_' + pageNr + '_' + type);
 		if (content !== undefined && content !== null && content !== '') {
             description.text(content);
             transcriptie.text(content);
@@ -120,7 +119,7 @@ var addNode = xUtils.addNode;
 		source.attr ('ID', altoId);
 		amdsec.attr ('ID', 'SECTION-' + altoId);
 
-		this.mets ('mets\\:file[ID*=' + date + '_' + pageNr + '_' + type + ']').each (function (index, item) {
+		this.mets ('mets\\:file[ID*=' + pageNr + '_' + type + ']').each (function (index, item) {
 			var node = this.mets (item);
 			node.attr ('ADMID', /* node.attr ('ADMID') + ' ' + */ altoId);
 		}.bind (this));

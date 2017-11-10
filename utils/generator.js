@@ -76,7 +76,29 @@ var Logger = require('./logger').Logger;
             var simpletype = calcSimpleType(file);
 
 			filenode.attr ('ID', 'id_' + pathToId (file));
-			filenode.attr ('ADMID', 'METADATA-ENSEMBLE');
+
+			// PID metadata for pdf, original_mets and mets
+			if (pathToId(file).indexOf('tif') == -1 &&  pathToId(file).indexOf('jp2') == -1 && pathToId(file).indexOf('jpg') == -1 && file.indexOf('complex') == -1 && pathToId(file).indexOf('alto') == -1) {
+				var mdid = pathToId(file);
+				filenode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT-' + mdid);
+
+				var digidata = this.xml ('mets\\:amdSec[ID=SECTION-METADATA-ENSEMBLE]');
+				var amdsec = digidata.clone ();
+				this.xml ('mets\\:amdSec').last ().after (amdsec);
+
+				amdsec.attr ('ID', 'SECTION-METADATA-DIGITAL-OBJECT-' + mdid);
+				var source = this.xml ('mets\\:sourceMD', amdsec);
+				source.attr ('ID', 'METADATA-DIGITAL-OBJECT-' + mdid);
+				var have = this.xml ('MediaHAVEN_external_metadata', source);
+
+				var pid = this.xml ('PID', have);
+				var prevpid = pid.text();
+				var newpid = pathToId(file);
+				pid.text(newpid);
+			} else {
+				filenode.attr ('ADMID', 'METADATA-ENSEMBLE');
+			}
+
 			filenode.attr ('MIMETYPE', mimetype);
 			filenode.attr ('CHECKSUM', calcMD5 (this.config.directory + '/' + file));
 			filenode.attr ('CHECKSUMTYPE', 'MD5');
@@ -120,7 +142,6 @@ var Logger = require('./logger').Logger;
 		}
 
 		this.addAgents (this.config.agents);
-		//this.addMetaSection ('METADATA-DIGITAL-OBJECT', this.config.metadata.digital_object);
 		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.digital_object);
 		this.addFilesSection (files);
 		this.addStructureMap ();

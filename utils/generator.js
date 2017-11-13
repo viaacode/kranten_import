@@ -113,7 +113,7 @@ var Logger = require('./logger').Logger;
 		var loc = addNode (this.xml, metsnode, ['mets:FLocat']);
 		metsnode.attr ('ID', 'id_' + id + '_mets');
 		metsnode.attr ('MIMETYPE', 'text/xml');
-		metsnode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT-' + id + '_' + mets);
+		metsnode.attr ('ADMID', 'METADATA-DIGITAL-OBJECT-' + id + '_mets');
 		metsnode.attr ('USE', 'DISK-SHARE-EVENTS');
 		loc.attr ('LOCTYPE', 'OTHER');
 		loc.attr ('xlink:href', id + '_mets.xml');
@@ -121,9 +121,9 @@ var Logger = require('./logger').Logger;
 		var amdsec = digidata.clone ();
 		this.xml ('mets\\:amdSec').last ().after (amdsec);
 
-		amdsec.attr ('ID', 'SECTION-METADATA-DIGITAL-OBJECT-' + id + '_' + mets);
+		amdsec.attr ('ID', 'SECTION-METADATA-DIGITAL-OBJECT-' + id + '_mets');
 		var source = this.xml ('mets\\:sourceMD', amdsec);
-		source.attr ('ID', 'METADATA-DIGITAL-OBJECT-' + id + '_' + mets);
+		source.attr ('ID', 'METADATA-DIGITAL-OBJECT-' + id + '_mets');
 		var have = this.xml ('MediaHAVEN_external_metadata', source);
 
 		var pid = this.xml ('PID', have);

@@ -34,7 +34,7 @@ var addNode = xUtils.addNode;
 	AltoEmbeder.prototype.listAltos = function listAltos () {
 		return fUtils.findFiles (this.config.directory)
 			.filter (function (file) {
-				return file.indexOf ('_alto') !== -1 || file.indexOf ('_jp2') !== -1 || file.indexOf ('_tif') !== -1;
+				return file.indexOf ('_jpg') !== -1 || file.indexOf ('_alto') !== -1 || file.indexOf ('_jp2') !== -1 || file.indexOf ('_tif') !== -1;
 			})
 			.map (function (file) {
 				return this.config.directory + '/' + file;

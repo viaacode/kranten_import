@@ -43,6 +43,11 @@
 		for ( var key in data ) {
 			if ( key.startsWith ('$') ) { node.attr (key.substr (1), data[key]); }
 			else if ( key === '#text' ) { node.append (data[key]); }
+			else if (data[key] instanceof Array) { 
+				for (var i = 0; i < data[key].length; i++) {
+					var sub = addNode (xml, node, [key]);
+					completeNode (xml, sub, data[key][i]);
+			}}
 			else { objects[key] = data[key] }
 		}
 		addObjects (xml, node, objects);

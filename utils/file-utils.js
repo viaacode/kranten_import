@@ -11,7 +11,8 @@ var crypto = require ('crypto');
 		'.xml': 'application/xml',
 		'.mov': 'video/quicktime',
 		'.dpx': 'mage/x-dpx',
-		'.zip': 'application/zip'
+		'.zip': 'application/zip',
+		'.pdf': 'application/pdf'
 	};
 
     var simpleTypes = {
@@ -22,7 +23,8 @@ var crypto = require ('crypto');
         '.xml': 'metadata',
         '.mov': 'essence',
         '.dpx': 'essence',
-        '.zip': 'archive'
+        '.zip': 'archive',
+	'.pdf': 'browse'
     };
 
 	function calcMD5 (file) {

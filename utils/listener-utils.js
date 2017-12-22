@@ -75,6 +75,7 @@ var q = require ('q');
 
 	Connection.prototype.keepChannel = function keepChannel (channel) {
 		this.channel = channel;
+		this.channel.prefetch(1);
 		return channel;
 	}
 

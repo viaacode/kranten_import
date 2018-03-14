@@ -33,18 +33,26 @@ listen (options, function (ch, data, response) {
 	var fromFileName = path.join (data.source_path, data.source_file);
 	var toFileName = path.join (data.destination_path, data.destination_file);
 
-	mkdirp.sync (data.destination_path)
+	mkdirp.sync (data.destination_path);
 
 	var deferred = q.defer ();
-
+	try {
+        fs.copyFileSync(fromFileName, toFileName);
+        deferred.resolve(response);
+    }
+    catch (err) {
+		deferred.reject(err);
+	}
+	/*
 	var fromFile = fs.createReadStream (fromFileName, { autoClose: true });
 	fromFile.on ('error', function (err) { deferred.reject (err); });
 
 	var toFile = fs.createWriteStream (toFileName, { autoClose: true });
 	toFile.on ('error', function (err) { deferred.reject (err); });
-	toFile.on ('close', function () { deferred.resolve (response); } )
+	toFile.on ('close', function () { deferred.resolve (response); } );
 
 	fromFile.pipe (toFile);
+	*/
 
 	return deferred.promise
 });

@@ -1,5 +1,6 @@
 var cheerio = require ('cheerio');
 var fs = require ('fs');
+const path = require('path');
 
 var xUtils = require ('./xml-utils');
 var addNode = xUtils.addNode;
@@ -144,16 +145,41 @@ var Logger = require('./logger').Logger;
 			this.root.attr (key, xUtils.namespaces[key]);
 		}
 		this.root.attr ('xsi:schemaLocation', xUtils.locations.join (' '));
-
+		// Check if we have exactly the same files for tiff and jp2
 		var files = fUtils.findFiles (this.config.directory);
 		var tiffFiles = files.filter((f) => {return f.indexOf('.tif') > 0} );
         var jp2Files = files.filter((f) => {return f.indexOf('.jp2') > 0} );
-		var tiffFileCount = tiffFiles.length;
-		var jp2FileCount = jp2Files.length;
 
-		if (tiffFileCount != jp2FileCount) {
-			throw ('TIFF FILE COUNT (' + tiffFileCount + ') != JP2 FILE COUNT (' + jp2FileCount + ')! ABORT!');
-		}
+        let filesMatch = true;
+        // Loop over all tif files. If a tif has a matching jp2 file, remove the jp2 from the list
+        for (let tiff of tiffFiles) {
+            const basename = path.basename(tiff, path.extname(tiff));
+            const toCheckName = basename.replace(/_tif/g, '') + '_jp2';
+            let exists = false;
+            for (let jp2 of jp2Files) {
+                const jp2basename = path.basename(jp2, path.extname(jp2));
+                if (jp2basename === toCheckName) {
+                    var index = jp2Files.indexOf(jp2);
+                    jp2Files.splice(index, 1);
+                    exists = true;
+                }
+            }
+            if (!exists) console.log('There is no matching file for ' + basename);
+            filesMatch = filesMatch && exists;
+        }
+
+		// After looping over all TIF files, JP2 files should be empty. There should not be more JP2 files compared to TIF files.
+        if (!filesMatch) {
+            if (jp2Files.length > 0) {
+                console.log('There are more jp2 files than tif files');
+                for (let jp2 of jp2Files) {
+                    console.log(jp2 + ' does not have a matching tif file');
+                }
+            } else {
+                console.log('There are probably more tif files than jp2 files. Look above for missing JP2 files');
+            }
+            throw ('Files do not match!!! Abort!!');
+        }
 
 		this.addAgents (this.config.agents);
 		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.digital_object);

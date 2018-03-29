@@ -10,6 +10,10 @@ var chalk = require ('chalk');
 		});
 	}
 
+	function getDate() {
+		return new Date ().toISOString().replace(/T/g, ' ').replace(/Z/g, '');
+	}
+
 	function Logger (options) {
 		this.options = options;
 	}
@@ -20,19 +24,19 @@ var chalk = require ('chalk');
 
 	Logger.prototype.log = function log (msg, data) {
 		this.elasticLog (msg, data, 'info');
-		console.log (chalk.bold (' [x] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.green (msg));
+		console.log (chalk.bold (getDate() + ' [INFO] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.green (msg));
 		if ( data ) { printObject (data); }
 	}
 
 	Logger.prototype.warn = function warn (msg, data) {
 		this.elasticLog (msg, data, 'warn');
-		console.log (chalk.bold (' [X] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.yellow (msg));
+		console.log (chalk.bold (getDate() + ' [WARN] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.yellow (msg));
 		if ( data ) { printObject (data, chalk.yellow); }
 	}
 
 	Logger.prototype.error = function error (msg, data) {
 		this.elasticLog (msg, data, 'error');
-		console.log (chalk.bold (' [!] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.red (msg));
+		console.log (chalk.bold (getDate() + ' [ERROR] ') + chalk.gray ('(' + this.options._app + ') ') + chalk.red (msg));
 		if ( data ) { printObject (data, chalk.red); }
 	}
 

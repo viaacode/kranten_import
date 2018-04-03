@@ -55,8 +55,11 @@ var addNode = xUtils.addNode;
 			}
 		});
 		var ocrdata = {};
+		let altoCount = 0;
+		let tifCount = 0;
 		altos.forEach (function (altofile) {
 			if (altofile.indexOf('.xml') !== -1) {
+				altoCount = altoCount = 1;
                 var alto = loadXmlFile(altofile);
                 var contents = alto('String').map(function (index, node) {
                     return alto(node).attr('CONTENT');
@@ -64,6 +67,9 @@ var addNode = xUtils.addNode;
                 ocrdata[fUtils.getPageNumber (altofile)] = contents;
                 this.embedAlto(altofile, contents);
             } else {
+				if (altofile.indexOf ('_tif') !== -1) {
+					tifCount = tifCount + 1;
+				}
 				if (ocrdata[fUtils.getPageNumber(altofile)] !== undefined && ocrdata[fUtils.getPageNumber(altofile)] !== null && ocrdata[fUtils.getPageNumber(altofile)] !== '') {
 					var contents = ocrdata[fUtils.getPageNumber(altofile)];
 				} else {
@@ -72,7 +78,7 @@ var addNode = xUtils.addNode;
                 this.embedAlto(altofile, contents);
 			}
 		}.bind (this));
-
+		if (altoCount > 0 && altoCount !== tifCount) throw 'We have altos but the count does not match the tif count!!!';
 		if ( this.params.writeToDisk ) {
 			fs.writeFileSync (this.metsfilename, this.toString ());
 		}

@@ -78,7 +78,7 @@ var addNode = xUtils.addNode;
                 this.embedAlto(altofile, contents);
 			}
 		}.bind (this));
-		if (altoCount > 0 && altoCount !== tifCount) throw 'We have altos but the count does not match the tif count!!!';
+		if (altoCount > 0 && altoCount !== tifCount) throw ('We have altos (' + altoCount + ') but the count does not match the tif (' + tifCount + ') count!');
 		if ( this.params.writeToDisk ) {
 			fs.writeFileSync (this.metsfilename, this.toString ());
 		}

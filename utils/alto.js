@@ -59,7 +59,7 @@ var addNode = xUtils.addNode;
 		let tifCount = 0;
 		altos.forEach (function (altofile) {
 			if (altofile.indexOf('.xml') !== -1) {
-				altoCount = altoCount = 1;
+				altoCount = altoCount + 1;
                 var alto = loadXmlFile(altofile);
                 var contents = alto('String').map(function (index, node) {
                     return alto(node).attr('CONTENT');

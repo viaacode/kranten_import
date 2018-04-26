@@ -38,7 +38,11 @@ listen (options, function (ch, data, response) {
 	var deferred = q.defer ();
 	try {
         fs.copyFileSync(fromFileName, toFileName);
-        deferred.resolve(response);
+        if (fs.existsSync(toFileName)) {
+            deferred.resolve(response);
+        } else {
+            deferred.reject(err);
+		}
     }
     catch (err) {
 		deferred.reject(err);

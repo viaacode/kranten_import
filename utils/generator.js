@@ -60,7 +60,7 @@ var Logger = require('./logger').Logger;
 	}
 
 	Generator.prototype.addFilesSection = function addFilesSection (files, checksums) {
-		var group = addNode (this.xml, this.root, ['mets:fileSec', 'mets:fileGrp']);
+		var group = addNode(this.xml, this.root, ['mets:fileSec', 'mets:fileGrp']);
 		var id = this.config.pid;
 		group.attr ('ID', 'id_' + id);
 		group.attr ('ADMID', 'METADATA-ENSEMBLE');
@@ -99,11 +99,11 @@ var Logger = require('./logger').Logger;
 			}
 
 			filenode.attr ('MIMETYPE', mimetype);
-			if (checksums[file] === undefined) {
-				filenode.attr ('CHECKSUM', calcMD5(this.config.directory + '/' + file));
+			if (checksums[path.basename(file)] === undefined) {
+				filenode.attr('CHECKSUM', calcMD5(this.config.directory + '/' + file));
 			}
 			else {
-				filenode.attr ('CHECKSUM', checksums[file]);
+				filenode.attr('CHECKSUM', checksums[path.basename(file)]);
 			}
 			filenode.attr ('CHECKSUMTYPE', 'MD5');
 			// MAKE SURE TIFS ARE SET TO fileUse.essence, others to fileUse.other

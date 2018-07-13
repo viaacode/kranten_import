@@ -59,11 +59,9 @@ var Logger = require('./logger').Logger;
 		addObjects (this.xml, datanode, data);
 	}
 
-	Generator.prototype.addFilesSection = function addFilesSection (files) {
+	Generator.prototype.addFilesSection = function addFilesSection (files, checksums) {
 		var group = addNode (this.xml, this.root, ['mets:fileSec', 'mets:fileGrp']);
-
 		var id = this.config.pid;
-
 		group.attr ('ID', 'id_' + id);
 		group.attr ('ADMID', 'METADATA-ENSEMBLE');
 		group.attr ('USE', 'DISK-SHARE-EVENTS');
@@ -101,7 +99,12 @@ var Logger = require('./logger').Logger;
 			}
 
 			filenode.attr ('MIMETYPE', mimetype);
-			filenode.attr ('CHECKSUM', calcMD5 (this.config.directory + '/' + file));
+			if (checksums[file] === undefined) {
+				filenode.attr ('CHECKSUM', calcMD5(this.config.directory + '/' + file));
+			}
+			else {
+				filenode.attr ('CHECKSUM', checksums[file]);
+			}
 			filenode.attr ('CHECKSUMTYPE', 'MD5');
 			// MAKE SURE TIFS ARE SET TO fileUse.essence, others to fileUse.other
 			filenode.attr ('USE', this.config.fileUse[simpletype]);
@@ -183,7 +186,7 @@ var Logger = require('./logger').Logger;
 
 		this.addAgents (this.config.agents);
 		this.addMetaSection ('METADATA-ENSEMBLE', this.config.metadata.digital_object);
-		this.addFilesSection (files);
+		this.addFilesSection (files, this.config.checksums);
 		this.addStructureMap ();
 
 		if ( this.params.writeToDisk ) {

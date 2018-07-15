@@ -74,6 +74,10 @@ Request message structure:
 	    "metadata": "DISK-SHARE-EVENTS",
 	    "video": "TAPE-SHARE-EVENTS",
 	    "archive": "TAPE-SHARE-EVENTS"
+	},
+	"checksums": {
+    	"4746q1wv0v_0001_tif.tif": "d41d8cd98f00b204e9800998ecf8427e",
+    	"4746q1wv0v_0002_tif.tif": "d41d8cd98f00b204e9800998ecf8427e"
 	}
 }
 ```
